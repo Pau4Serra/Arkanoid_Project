@@ -8,8 +8,8 @@ public class Racquet {
 	private static final int Y = 330;
 	private static final int WIDTH = 60;
 	private static final int HEIGHT = 10;
-	int x = 150;
-	int xa = 0;
+	double x = 120;
+	double xa = 0;
 	private Game game;
 	
 	public Racquet(Game game) {
@@ -23,7 +23,7 @@ public class Racquet {
 	}
 	
 	public void paint(Graphics2D g) {
-		g.fillRect(x, Y, WIDTH, HEIGHT);
+		g.fillRect((int) x, Y, WIDTH, HEIGHT);
 	}
 	
 	public void keyReleased(KeyEvent e) {
@@ -41,7 +41,7 @@ public class Racquet {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, Y, WIDTH, HEIGHT);
+		return new Rectangle((int) x, Y, WIDTH, HEIGHT);
 	}
 	
 	public int getTopY() {

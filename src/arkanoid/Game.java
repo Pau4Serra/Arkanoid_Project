@@ -1,6 +1,7 @@
 package arkanoid;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,10 +18,17 @@ public class Game extends JPanel {
 	
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
-	int speed = 1;
+	int score = 0;
+	double speed = 1;
 	
-	private int getScore() {
-		return speed - 1;
+	DecimalFormat form = new DecimalFormat("#,#");
+	
+	private double Speed() {
+		return Double.valueOf(form.format(speed));
+	}
+	
+	private int Score() {
+		return score;
 	}
 	
 	public Game() {
@@ -60,14 +68,14 @@ public class Game extends JPanel {
 		
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font("Verdana", Font.BOLD, 20));
-		g2d.drawString("Score: " + String.valueOf(getScore()), 10, 30);
+		g2d.drawString("Score: " + String.valueOf(Score()), 10, 30);
 		
 	}
 	
 	public void gameOver() {
 		Sound.MAIN.stop();
 		Sound.GAMEOVER.play();
-		JOptionPane.showMessageDialog(this, "Your score is:  " + getScore(), "Game Over", JOptionPane.YES_NO_OPTION);
+		JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}
 
@@ -77,6 +85,7 @@ public class Game extends JPanel {
 		Game game = new Game();
 		frame.add(game);
 		frame.setSize(300, 400);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

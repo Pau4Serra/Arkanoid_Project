@@ -5,10 +5,10 @@ import java.awt.Rectangle;
 
 public class Ball {
 	private static final int DIAMETER = 30;
-	int x = 0;
-	int y = 0;
-	int xa = 1;
-	int ya = 1;
+	double x = 0;
+	double y = 0;
+	double xa = 1;
+	double ya = 1;
 	private Game game;
 	
 	public Ball(Game game) {
@@ -36,7 +36,9 @@ public class Ball {
 		else if (collision()) {
 			ya = -game.speed;
 			y = game.racquet.getTopY() - (DIAMETER-5); //sus
-			game.speed++;
+			game.speed += 0.1;
+			game.score++;
+			
 			
 		} else {
 			changeDirection = false;
@@ -55,12 +57,12 @@ public class Ball {
 	}
 
 	public void paint(Graphics2D g) {
-		g.fillOval(x, y, DIAMETER, DIAMETER);
+		g.fillOval((int) x, (int) y, DIAMETER, DIAMETER);
 		
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, DIAMETER, DIAMETER);
+		return new Rectangle((int )x, (int) y, DIAMETER, DIAMETER);
 	}
 
 }
