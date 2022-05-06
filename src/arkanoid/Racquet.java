@@ -5,8 +5,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Racquet {
-	private static final int Y = 330;
-	private static final int WIDTH = 60;
+	private static final int Y = 730;
+	private static final int WIDTH = 80;
 	private static final int HEIGHT = 10;
 	double x = 120;
 	double xa = 0;
@@ -17,7 +17,7 @@ public class Racquet {
 	}
 	
 	public void move() {
-		if (x + xa > 0 && x + xa < game.getWidth() - 60) {
+		if (x + xa > 0 && x + xa < game.getWidth() - 80) {
 			x = x + xa;
 		}
 	}

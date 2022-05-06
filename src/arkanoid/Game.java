@@ -18,8 +18,9 @@ public class Game extends JPanel {
 	
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
+	Brick brick = new Brick(this);
 	int score = 0;
-	double speed = 1;
+	double speed = 2;
 	
 	DecimalFormat form = new DecimalFormat("#,#");
 	
@@ -65,6 +66,7 @@ public class Game extends JPanel {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		ball.paint(g2d);
 		racquet.paint(g2d);
+		brick.paint(g2d);
 		
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font("Verdana", Font.BOLD, 20));
@@ -84,7 +86,7 @@ public class Game extends JPanel {
 		JFrame frame = new JFrame("Arkanoid");
 		Game game = new Game();
 		frame.add(game);
-		frame.setSize(300, 400);
+		frame.setSize(600, 800);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
