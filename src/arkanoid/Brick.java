@@ -2,6 +2,7 @@ package arkanoid;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,36 +14,64 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Brick {
+public abstract class Brick {
 	
-	public static final int WIDTH = 100;
-	public static final int HEIGHT = 30;
-	
-	int x = 265;
-	int y = 250;
+	public static final int WIDTH = 50;
+	public static final int HEIGHT = 20;
+	int x;
+	int y;
 	int hp = 1;
+	boolean Alive = true;
 	
-	private Game game;
+	protected static Game game;
 	
-	public Brick(Game game) {
+	public Brick(int x, int y, int hp, Game game, boolean Alive) {
+		this.x = x;
+		this.y = y;
+		this.hp = hp;
 		this.game = game;
+		this.Alive = Alive;
+		
 	}
-
-	public void paint(Graphics2D g) {
-		g.fillRect(x, y, WIDTH, HEIGHT);
+	
+	public abstract void paint(Graphics2D g);
+	public abstract void action(int i);
+	public abstract void brickDie(int i);
+	
+	public static void generateBricks(ArrayList<Brick> Bricks, Brick brick) {
+		
+		int posX = 15;
+		int posY = 10;
+		int percent;
+		
+		for (int i = 0; i < 56; i++) {
+			
+			percent = (int) (Math.random()*100);
+			
+			if(percent >= 70) {
+				brick = new GreenBrick(posX, posY, game);
+			}
+			
+			else if ((percent < 70) && (percent >= 30)) {
+				brick = new BlueBrick(posX, posY, game);
+			}
+			
+			else if (percent < 30) {
+				brick = new RedBrick(posX, posY, game);
+			}
+			
+			Bricks.add(brick);
+			posX += (WIDTH + 10);
+			
+			if((i + 2)%8 == 1) {
+				posX = 15;
+				posY += (HEIGHT + 10);
+			}
+		}
+		
 	}
 	
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, WIDTH, HEIGHT);
 	}
-	
-	/*
-	 * public int getTopY() { return y - HEIGHT; }
-	 * 
-	 * public int getBotY() { return y + HEIGHT; }
-	 * 
-	 * public int rightX() { return x + WIDTH; }
-	 * 
-	 * public int leftX() { return x - WIDTH; }
-	 */
 }

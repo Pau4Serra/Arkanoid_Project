@@ -1,7 +1,9 @@
 package arkanoid;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,21 +20,31 @@ public class Game extends JPanel {
 	
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
-	Brick brick = new Brick(this);
-	int score = 0;
-	double speed = 2;
+	static Brick brick;
+	static int score = 0;
+	double BallSpeed = 1;
+	double RaquetSpeed = 2;
+	public static int WIDTH = 1536;
+	public static int HEIGHT = 864;
+
+	static ArrayList<Brick> Bricks = new ArrayList<>();
 	
 	DecimalFormat form = new DecimalFormat("#,#");
 	
-	private double Speed() {
-		return Double.valueOf(form.format(speed));
+	@SuppressWarnings("unused")
+	private double RacquetSpeed() {
+		return Double.valueOf(form.format(RaquetSpeed));
 	}
 	
-	private int Score() {
-		return score;
+	@SuppressWarnings("unused")
+	private double BallSpeed() {
+		return Double.valueOf(form.format(BallSpeed));
 	}
-	
+
 	public Game() {
+		
+		setBackground(Color.BLACK);
+		
 		addKeyListener(new KeyListener() {
 			
 			@Override
@@ -53,6 +65,18 @@ public class Game extends JPanel {
 		Sound.MAIN.loop();
 	}
 	
+	public static int Score() {
+		return score;
+	}
+	
+	public static int Width() {
+		return WIDTH;
+	}
+
+	public static int Height() {
+		return HEIGHT;
+	}
+	
 	private void move() {
 		ball.move();
 		racquet.move();
@@ -66,11 +90,14 @@ public class Game extends JPanel {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		ball.paint(g2d);
 		racquet.paint(g2d);
-		brick.paint(g2d);
+		
+		for (int i = 0; i < Bricks.size(); i++) {
+			Bricks.get(i).paint(g2d);
+		}
 		
 		g2d.setColor(Color.RED);
 		g2d.setFont(new Font("Verdana", Font.BOLD, 20));
-		g2d.drawString("Score: " + String.valueOf(Score()), 10, 30);
+		g2d.drawString("Score: " + String.valueOf(Score()), 10, 530);
 		
 	}
 	
@@ -79,14 +106,15 @@ public class Game extends JPanel {
 		Sound.GAMEOVER.play();
 		JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
-	}
+	}		
 
 	public static void main(String[] args) throws InterruptedException {
 
+		Brick.generateBricks(Bricks, brick);
 		JFrame frame = new JFrame("Arkanoid");
 		Game game = new Game();
 		frame.add(game);
-		frame.setSize(600, 800);
+		frame.setBounds(WIDTH/2 - WIDTH/3/2, HEIGHT/2 - HEIGHT/3, WIDTH/3, (int) (HEIGHT/1.5));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,7 +123,8 @@ public class Game extends JPanel {
 			game.move();
 			game.repaint();
 			Thread.sleep(8);
+			
 		}
 	}
-
+	
 }
