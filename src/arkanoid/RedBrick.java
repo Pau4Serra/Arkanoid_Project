@@ -34,7 +34,7 @@ public class RedBrick extends Brick{
 		if (hp == 0) {
 			Alive = false;
 			Game.Bricks.get(i).action(i);;
-			Game.score++;
+			Game.score += 2;
 		}
 	}
 }

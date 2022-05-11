@@ -1,7 +1,6 @@
 package arkanoid;
 
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.Font;
@@ -20,12 +19,16 @@ public class Game extends JPanel {
 	
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
+	private Menu menu = new Menu();
 	static Brick brick;
 	static int score = 0;
 	double BallSpeed = 1;
 	double RaquetSpeed = 2;
 	public static int WIDTH = 1536;
 	public static int HEIGHT = 864;
+	static boolean bucle = true;
+	public static STATE State = STATE.MENU;
+	
 
 	static ArrayList<Brick> Bricks = new ArrayList<>();
 	
@@ -36,12 +39,16 @@ public class Game extends JPanel {
 		return Double.valueOf(form.format(RaquetSpeed));
 	}
 	
+	
+	
 	@SuppressWarnings("unused")
 	private double BallSpeed() {
 		return Double.valueOf(form.format(BallSpeed));
 	}
 
 	public Game() {
+		
+		this.addMouseListener(new MouseInput());
 		
 		setBackground(Color.BLACK);
 		
@@ -60,6 +67,7 @@ public class Game extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				racquet.keyPressed(e);
 			}
+			
 		});
 		setFocusable(true);
 		Sound.MAIN.loop();
@@ -77,28 +85,36 @@ public class Game extends JPanel {
 		return HEIGHT;
 	}
 	
-	private void move() {
-		ball.move();
-		racquet.move();
+	private void move() throws InterruptedException {
+		if(State == STATE.GAME) {
+			ball.move();
+			racquet.move();
+		}
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		ball.paint(g2d);
-		racquet.paint(g2d);
-		
-		for (int i = 0; i < Bricks.size(); i++) {
-			Bricks.get(i).paint(g2d);
+		if(State == STATE.GAME) {
+			super.paint(g);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+			ball.paint(g2d);
+			racquet.paint(g2d);
+			
+			for (int i = 0; i < Bricks.size(); i++) {
+				Bricks.get(i).paint(g2d);
+			}
+			
+			g2d.setColor(Color.RED);
+			g2d.setFont(new Font("Verdana", Font.BOLD, 20));
+			g2d.drawString("Score: " + String.valueOf(Score()), 10, 530);
 		}
 		
-		g2d.setColor(Color.RED);
-		g2d.setFont(new Font("Verdana", Font.BOLD, 20));
-		g2d.drawString("Score: " + String.valueOf(Score()), 10, 530);
-		
+		else if (State == STATE.MENU) {
+			menu.render(g);
+		}
+			
 	}
 	
 	public void gameOver() {
@@ -107,7 +123,18 @@ public class Game extends JPanel {
 		JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}		
-
+	
+	
+	
+	public static enum STATE {
+		
+		MENU,
+		GAME,
+		RULES,
+		PAUSE
+	}
+	
+	 
 	public static void main(String[] args) throws InterruptedException {
 
 		Brick.generateBricks(Bricks, brick);
@@ -117,14 +144,13 @@ public class Game extends JPanel {
 		frame.setBounds(WIDTH/2 - WIDTH/3/2, HEIGHT/2 - HEIGHT/3, WIDTH/3, (int) (HEIGHT/1.5));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		while (true) {
 			game.move();
 			game.repaint();
-			Thread.sleep(8);
-			
-		}
+			Thread.sleep(8);		
+		}	
 	}
-	
 }

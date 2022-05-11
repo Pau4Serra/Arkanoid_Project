@@ -44,20 +44,28 @@ public abstract class Brick {
 		int posY = 10;
 		int percent;
 		
-		for (int i = 0; i < 56; i++) {
+		for (int i = 0; i < 48; i++) {
 			
 			percent = (int) (Math.random()*100);
 			
-			if(percent >= 70) {
+			if(percent >= 80) {
 				brick = new GreenBrick(posX, posY, game);
 			}
 			
-			else if ((percent < 70) && (percent >= 30)) {
+			else if ((percent < 80) && (percent >= 50)) {
 				brick = new BlueBrick(posX, posY, game);
 			}
 			
-			else if (percent < 30) {
+			else if ((percent < 50) && (percent >= 30)) {
 				brick = new RedBrick(posX, posY, game);
+			}
+			
+			else if ((percent < 30) && (percent >= 10)) {
+				brick = new YellowBrick(posX, posY, game);
+			}
+			
+			else if(percent < 10) {
+				brick = new SilverBrick(posX, posY, game);
 			}
 			
 			Bricks.add(brick);
