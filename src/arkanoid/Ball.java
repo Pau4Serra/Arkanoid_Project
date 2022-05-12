@@ -39,6 +39,9 @@ public class Ball {
 			} 
 			 
 			else if (y + ya > game.getHeight() - DIAMETER) {
+				game.racquet.playerHp--;
+				game.PlayerHP();
+				game.paint(game.getGraphics());
 				game.gameOver();
 			}
 			
@@ -82,7 +85,9 @@ public class Ball {
 		
 		for (int i = 0; i < game.Bricks.size(); i++) {
 			if(game.racquet.getBounds().intersects(game.Bricks.get(i).getBounds())) {
-				
+				game.racquet.playerHp = 0;
+				game.PlayerHP();
+				game.paint(game.getGraphics());
 				game.gameOver();
 			}
 		}

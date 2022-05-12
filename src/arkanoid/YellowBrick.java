@@ -19,8 +19,10 @@ public class YellowBrick extends Brick{
 
 	@Override
 	public void action(int i) {
-	
-		
+
+		if (Game.Bricks.get(i).Alive == false) {
+				game.racquet.xa += 5;
+		}	
 	}
 
 	@Override
@@ -28,6 +30,8 @@ public class YellowBrick extends Brick{
 		// TODO Auto-generated method stub
 		hp--;
 		if (hp == 0) {
+			Alive = false;
+			Game.Bricks.get(i).action(i);
 			Game.Bricks.remove(i);
 			Game.score += 2;
 		}	

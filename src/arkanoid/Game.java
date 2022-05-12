@@ -21,7 +21,6 @@ public class Game extends JPanel {
 	Racquet racquet = new Racquet(this);
 	private Menu menu = new Menu();
 	private PauseMenu pause = new PauseMenu();
-	static Brick brick;
 	static int score = 0;
 	double BallSpeed = 1;
 	double RacquetSpeed = 2;
@@ -50,6 +49,8 @@ public class Game extends JPanel {
 	public Game() {
 		
 		this.addMouseListener(new MouseInput());
+		
+		generateBricks(Bricks);
 		
 		setBackground(Color.BLACK);
 		
@@ -80,6 +81,10 @@ public class Game extends JPanel {
 		});
 		setFocusable(true);
 		
+	}
+	
+	public int PlayerHP() {
+		return racquet.playerHp;
 	}
 	
 	public static int Score() {
@@ -118,6 +123,7 @@ public class Game extends JPanel {
 			g2d.setColor(Color.RED);
 			g2d.setFont(new Font("Verdana", Font.BOLD, 20));
 			g2d.drawString("Score: " + String.valueOf(Score()), 10, 530);
+			g2d.drawString("HP: " + String.valueOf(PlayerHP()), 430, 530);
 		}
 		
 		else if (State == STATE.MENU) {
@@ -135,11 +141,68 @@ public class Game extends JPanel {
 			
 	}
 	
+	public void generateBricks(ArrayList<Brick> Bricks) {
+		
+		int posX = 15;
+		int posY = 10;
+		int percent;
+		
+		for (int i = 0; i < 48; i++) {
+			
+			Brick brick = null;
+			
+			percent = (int) (Math.random()*100);
+			
+			if(percent >= 80) {
+				brick = new GreenBrick(posX, posY, this);
+			}
+			
+			else if ((percent < 80) && (percent >= 50)) {
+				brick = new BlueBrick(posX, posY, this);
+			}
+			
+			else if ((percent < 50) && (percent >= 30)) {
+				brick = new RedBrick(posX, posY, this);
+			}
+			
+			else if ((percent < 30) && (percent >= 10)) {
+				brick = new YellowBrick(posX, posY, this);
+			}
+			
+			else if(percent < 10) {
+				brick = new SilverBrick(posX, posY, this);
+			}
+			
+			Bricks.add(brick);
+			posX += (Brick.getWidth() + 10);
+			
+			if((i + 2)%8 == 1) {
+				posX = 15;
+				posY += (Brick.getHeight() + 10);
+			}
+		}
+	}
+	
 	public void gameOver() {
-		Sound.MAIN.stop();
-		Sound.GAMEOVER.play();
-		JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
-		System.exit(ABORT);
+		
+		if(racquet.playerHp == 2 || racquet.playerHp == 1) {
+			racquet.x = 200;
+			racquet.xa = 0;
+			racquet.Y = 520;
+			
+			ball.x = 200;
+			ball.y = 400;
+			ball.xa = 1;
+			ball.ya = -1;
+		}
+		
+		else if (racquet.playerHp <= 0) {
+			
+			Sound.MAIN.stop();
+			Sound.GAMEOVER.play();
+			JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
+			System.exit(ABORT);
+		}
 	}		
 	
 	public static enum STATE {
@@ -150,10 +213,8 @@ public class Game extends JPanel {
 		PAUSE
 	}
 	
-	 
 	public static void main(String[] args) throws InterruptedException {
 
-		Brick.generateBricks(Bricks, brick);
 		JFrame frame = new JFrame("Arkanoid");
 		Game game = new Game();
 		frame.add(game);

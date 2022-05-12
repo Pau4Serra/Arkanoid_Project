@@ -12,6 +12,7 @@ public class Racquet {
 	private static final int HEIGHT = 10;
 	double x = 200;
 	double xa = 0;
+	int playerHp = 3;
 	Game game;
 	public Racquet(Game game) {;
 		this.game = game;
@@ -20,7 +21,6 @@ public class Racquet {
 	public void move() {
 		if (x + xa > 0 && x + xa < game.getWidth() - 80) {
 			x = x + xa;
-			
 		}
 	}
 	

@@ -4,8 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 
 public class RedBrick extends Brick{
-	
-	double brickSpeed = 7;
 
 	public RedBrick(int x, int y, Game game) {
 		super(x, y, 2, game, true);
@@ -21,6 +19,7 @@ public class RedBrick extends Brick{
 	
 	@Override
 	public void action(int i) {
+		
 		if (Game.Bricks.get(i).Alive == false) {
 			Game.Bricks.get(i).y += 3;
 			

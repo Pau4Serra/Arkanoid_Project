@@ -5,6 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 
 public class Menu {
 	
@@ -15,8 +19,6 @@ public class Menu {
 	public void render(Graphics g) {
 		
 		Graphics2D g2d = (Graphics2D) g;
-		
-		
 		
 		Font font = new Font("Verdana", Font.BOLD, 50);
 		g.setFont(font);
