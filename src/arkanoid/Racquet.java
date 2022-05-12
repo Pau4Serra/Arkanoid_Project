@@ -35,11 +35,11 @@ public class Racquet {
 	
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			xa = -game.RaquetSpeed;
+			xa = -game.RacquetSpeed;
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			xa = game.RaquetSpeed;
+			xa = game.RacquetSpeed;
 		}
 	}
 	

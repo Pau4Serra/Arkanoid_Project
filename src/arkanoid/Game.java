@@ -20,10 +20,11 @@ public class Game extends JPanel {
 	Ball ball = new Ball(this);
 	Racquet racquet = new Racquet(this);
 	private Menu menu = new Menu();
+	private PauseMenu pause = new PauseMenu();
 	static Brick brick;
 	static int score = 0;
 	double BallSpeed = 1;
-	double RaquetSpeed = 2;
+	double RacquetSpeed = 2;
 	public static int WIDTH = 1536;
 	public static int HEIGHT = 864;
 	static boolean bucle = true;
@@ -36,7 +37,7 @@ public class Game extends JPanel {
 	
 	@SuppressWarnings("unused")
 	private double RacquetSpeed() {
-		return Double.valueOf(form.format(RaquetSpeed));
+		return Double.valueOf(form.format(RacquetSpeed));
 	}
 	
 	
@@ -60,6 +61,14 @@ public class Game extends JPanel {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
+				if(State == STATE.GAME && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					State = STATE.PAUSE;
+				}
+				
+				else if (State == STATE.PAUSE && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					State = STATE.GAME;
+					Sound.MAIN.loop();
+				}
 				racquet.keyReleased(e);
 			}
 			
@@ -70,7 +79,7 @@ public class Game extends JPanel {
 			
 		});
 		setFocusable(true);
-		Sound.MAIN.loop();
+		
 	}
 	
 	public static int Score() {
@@ -114,6 +123,15 @@ public class Game extends JPanel {
 		else if (State == STATE.MENU) {
 			menu.render(g);
 		}
+		
+		else if (State == STATE.PAUSE) {
+			pause.render(g);
+			Sound.MAIN.stop();
+		}
+		
+		else if (State == STATE.RULES) {
+			Rules.rules();
+		}
 			
 	}
 	
@@ -123,8 +141,6 @@ public class Game extends JPanel {
 		JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}		
-	
-	
 	
 	public static enum STATE {
 		

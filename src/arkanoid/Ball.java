@@ -45,8 +45,10 @@ public class Ball {
 			else if (collisionRacquet()) {
 				ya = -game.BallSpeed;
 				y = game.racquet.getTopY() - (DIAMETER-5);
-				game.RaquetSpeed += 0.1;
-				game.BallSpeed += 0.1;
+				if(game.BallSpeed < 4) {
+					game.RacquetSpeed += 0.1;
+					game.BallSpeed += 0.1;
+				}
 			} 
 			
 			else if ((x + DIAMETER + xa > game.Bricks.get(i).x) 

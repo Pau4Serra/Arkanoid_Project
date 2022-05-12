@@ -22,6 +22,10 @@ public class Menu {
 		g.setFont(font);
 		g.setColor(Color.BLACK);
 		g.drawString("ARKANOID", 90, 60);
+		Font font2 = new Font("Verdana", Font.BOLD, 20);
+		g.setFont(font2);
+		g.setColor(Color.BLACK);
+		g.drawString("Pau Serra", 200, 500);
 		
 		Font font1 = new Font("Arial", Font.BOLD, 30);
 		g.setFont(font1);
