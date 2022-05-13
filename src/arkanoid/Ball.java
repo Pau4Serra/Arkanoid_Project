@@ -62,6 +62,7 @@ public class Ball {
 						col = true;
 						xa *= -1;
 						Game.Bricks.get(i).brickDie(i);
+						Sound.BALL.play();
 			}
 			
 			else if ((x + DIAMETER > game.Bricks.get(i).x) 
@@ -72,6 +73,7 @@ public class Ball {
 						col = true;
 						ya *= -1;
 						Game.Bricks.get(i).brickDie(i);
+						Sound.BALL.play();
 			}
 			
 			else {

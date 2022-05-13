@@ -28,8 +28,9 @@ public class SilverBrick extends Brick{
 		// TODO Auto-generated method stub
 		hp--;
 		if (hp == 0) {
+			Alive = false;
 			Game.Bricks.remove(i);
-			Game.score++;
+			Game.score += 5;
 		}	
 	}
 

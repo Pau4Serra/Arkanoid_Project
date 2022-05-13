@@ -2,6 +2,8 @@ package arkanoid;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class YellowBrick extends Brick{
 
@@ -19,9 +21,11 @@ public class YellowBrick extends Brick{
 
 	@Override
 	public void action(int i) {
-
 		if (Game.Bricks.get(i).Alive == false) {
-				game.racquet.xa += 5;
+			System.out.println(game.RacquetSpeed);
+			game.RacquetSpeed += 2;
+			System.out.println(game.RacquetSpeed);
+				
 		}	
 	}
 
@@ -36,5 +40,4 @@ public class YellowBrick extends Brick{
 			Game.score += 2;
 		}	
 	}
-
 }

@@ -26,6 +26,7 @@ public class GreenBrick extends Brick{
 	public void brickDie(int i) {
 		hp--;
 		if (hp == 0) {
+			Alive = false;
 			Game.Bricks.remove(i);
 			Game.score += 3;
 		}

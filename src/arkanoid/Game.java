@@ -37,9 +37,7 @@ public class Game extends JPanel {
 	@SuppressWarnings("unused")
 	private double RacquetSpeed() {
 		return Double.valueOf(form.format(RacquetSpeed));
-	}
-	
-	
+	}	
 	
 	@SuppressWarnings("unused")
 	private double BallSpeed() {
@@ -134,10 +132,6 @@ public class Game extends JPanel {
 			pause.render(g);
 			Sound.MAIN.stop();
 		}
-		
-		else if (State == STATE.RULES) {
-			Rules.rules();
-		}
 			
 	}
 	
@@ -209,7 +203,6 @@ public class Game extends JPanel {
 		
 		MENU,
 		GAME,
-		RULES,
 		PAUSE
 	}
 	
