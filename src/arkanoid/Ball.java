@@ -9,8 +9,8 @@ public class Ball {
 	private static final int DIAMETER = 20;
 	double x = 200;
 	double y = 400;
-	double xa = 1;
-	double ya = -1;
+	double xa = -1;
+	double ya = -1.5;
 	Game game;
 	static boolean col;
 	
@@ -19,6 +19,7 @@ public class Ball {
 	}
 	
 	void move() {
+		
 		col = false;
 		boolean changeDirection = true;
 		
@@ -48,9 +49,29 @@ public class Ball {
 			else if (collisionRacquet()) {
 				ya = -game.BallSpeed;
 				y = game.racquet.getTopY() - (DIAMETER-5);
-				if(game.BallSpeed < 4) {
+				
+				if(game.BallSpeed < 10) {
+					
 					game.RacquetSpeed += 0.1;
 					game.BallSpeed += 0.1;
+				}
+				
+				if(game.racquet.xa > 0) {
+					
+					if(xa < 0) {
+						xa *= -1;
+					} else {
+						xa *= 1;
+					}
+				}
+				
+				if(game.racquet.xa < 0) {
+					
+					if(xa > 0) {
+						xa *= -1;
+					} else {
+						xa *= 1;
+					}
 				}
 			} 
 			
@@ -92,6 +113,10 @@ public class Ball {
 				game.paint(game.getGraphics());
 				game.gameOver();
 			}
+		}
+		
+		if(game.Bricks.size() == 0) {
+			game.gameOver();
 		}
 			x = x + xa;
 			y = y + ya;

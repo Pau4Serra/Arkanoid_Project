@@ -7,7 +7,7 @@ public class BlueBrick extends Brick{
 
 
 	public BlueBrick(int x, int y, Game game) {
-		super(x, y, 1, game, true);
+		super(x, y, 2, game, true);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -20,7 +20,20 @@ public class BlueBrick extends Brick{
 	
 	@Override
 	public void action(int i) {
-		
+		if (Game.Bricks.get(i).Alive == false) {
+			new Thread(new Runnable() {
+				public void run() {
+					game.RacquetSpeed += 2;
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					game.RacquetSpeed -= 2;
+				}
+			}).start();	
+		}
 	}
 
 	@Override
@@ -28,8 +41,9 @@ public class BlueBrick extends Brick{
 		hp--;
 		if (hp == 0) {
 			Alive = false;
+			Game.Bricks.get(i).action(i);
 			Game.Bricks.remove(i);
-			Game.score++;
+			Game.score += 2;
 		}		
 	}
 }

@@ -32,8 +32,11 @@ public class RedBrick extends Brick{
 		hp--;
 		if (hp == 0) {
 			Alive = false;
-			Game.Bricks.get(i).action(i);;
+			Game.Bricks.get(i).action(i);
 			Game.score += 2;
+			if(game.Bricks.get(i).y > Game.HEIGHT) {
+				game.Bricks.remove(i);
+			}
 		}
 	}
 }

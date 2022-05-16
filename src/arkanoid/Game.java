@@ -23,11 +23,12 @@ public class Game extends JPanel {
 	private PauseMenu pause = new PauseMenu();
 	static int score = 0;
 	double BallSpeed = 1;
-	double RacquetSpeed = 2;
+	double RacquetSpeed = BallSpeed * 2;
 	public static int WIDTH = 1536;
 	public static int HEIGHT = 864;
 	static boolean bucle = true;
 	public static STATE State = STATE.MENU;
+	private static JFrame frame;
 	
 
 	static ArrayList<Brick> Bricks = new ArrayList<>();
@@ -46,7 +47,9 @@ public class Game extends JPanel {
 
 	public Game() {
 		
-		this.addMouseListener(new MouseInput());
+		Sound.MENU.loop();
+		
+		this.addMouseListener(new MouseInput(this, frame));
 		
 		generateBricks(Bricks);
 		
@@ -107,10 +110,11 @@ public class Game extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		if(State == STATE.GAME) {
+			Sound.MENU.stop();
 			super.paint(g);
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
+			RenderingHints.VALUE_ANTIALIAS_ON);
 			ball.paint(g2d);
 			racquet.paint(g2d);
 			
@@ -124,15 +128,14 @@ public class Game extends JPanel {
 			g2d.drawString("HP: " + String.valueOf(PlayerHP()), 430, 530);
 		}
 		
-		else if (State == STATE.MENU) {
+		else if (State == STATE.MENU) {			
 			menu.render(g);
 		}
 		
 		else if (State == STATE.PAUSE) {
 			pause.render(g);
 			Sound.MAIN.stop();
-		}
-			
+		}	
 	}
 	
 	public void generateBricks(ArrayList<Brick> Bricks) {
@@ -152,7 +155,7 @@ public class Game extends JPanel {
 			}
 			
 			else if ((percent < 80) && (percent >= 50)) {
-				brick = new BlueBrick(posX, posY, this);
+				brick = new YellowBrick(posX, posY, this);
 			}
 			
 			else if ((percent < 50) && (percent >= 30)) {
@@ -160,7 +163,7 @@ public class Game extends JPanel {
 			}
 			
 			else if ((percent < 30) && (percent >= 10)) {
-				brick = new YellowBrick(posX, posY, this);
+				brick = new BlueBrick(posX, posY, this);
 			}
 			
 			else if(percent < 10) {
@@ -186,8 +189,8 @@ public class Game extends JPanel {
 			
 			ball.x = 200;
 			ball.y = 400;
-			ball.xa = 1;
 			ball.ya = -1;
+			
 		}
 		
 		else if (racquet.playerHp <= 0) {
@@ -195,7 +198,16 @@ public class Game extends JPanel {
 			Sound.MAIN.stop();
 			Sound.GAMEOVER.play();
 			JOptionPane.showMessageDialog(this, "Your score is:  " + Score(), "Game Over", JOptionPane.YES_NO_OPTION);
+			System.out.println(Bricks.size());
 			System.exit(ABORT);
+		}
+		
+		else if(Bricks.size() < 1) {
+			Sound.MAIN.stop();
+			Sound.WIN.play();
+			JOptionPane.showMessageDialog(this, "GG! You destroyed all the bricks!", "Victory", JOptionPane.YES_NO_OPTION);
+			System.exit(ABORT);
+			
 		}
 	}		
 	
@@ -203,12 +215,13 @@ public class Game extends JPanel {
 		
 		MENU,
 		GAME,
-		PAUSE
+		PAUSE,
+		WIN
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
 
-		JFrame frame = new JFrame("Arkanoid");
+		frame = new JFrame("Arkanoid");
 		Game game = new Game();
 		frame.add(game);
 		frame.setBounds(WIDTH/2 - WIDTH/3/2, HEIGHT/2 - HEIGHT/3, WIDTH/3, (int) (HEIGHT/1.5));

@@ -19,8 +19,17 @@ public class SilverBrick extends Brick{
 
 	@Override
 	public void action(int i) {
-		// TODO Auto-generated method stub
-		
+		if (Game.Bricks.get(i).Alive == false) {
+			if(i + 1 < game.Bricks.size()) {
+				game.Bricks.remove(i + 1);
+				game.Bricks.get(i + 1).Alive = false;
+			}
+			
+			if(i - 1 > game.Bricks.size()) {
+				game.Bricks.remove(i - 1);
+				game.Bricks.get(i - 1).Alive = false;
+			}
+		}		
 	}
 
 	@Override
@@ -29,6 +38,7 @@ public class SilverBrick extends Brick{
 		hp--;
 		if (hp == 0) {
 			Alive = false;
+			Game.Bricks.get(i).action(i);
 			Game.Bricks.remove(i);
 			Game.score += 5;
 		}	

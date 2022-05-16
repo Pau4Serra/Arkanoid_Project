@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class YellowBrick extends Brick{
 
 	public YellowBrick(int x, int y, Game game) {
-		super(x, y, 2, game, true);
+		super(x, y, 1, game, true);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -21,12 +21,7 @@ public class YellowBrick extends Brick{
 
 	@Override
 	public void action(int i) {
-		if (Game.Bricks.get(i).Alive == false) {
-			System.out.println(game.RacquetSpeed);
-			game.RacquetSpeed += 2;
-			System.out.println(game.RacquetSpeed);
-				
-		}	
+			
 	}
 
 	@Override
@@ -35,9 +30,8 @@ public class YellowBrick extends Brick{
 		hp--;
 		if (hp == 0) {
 			Alive = false;
-			Game.Bricks.get(i).action(i);
 			Game.Bricks.remove(i);
-			Game.score += 2;
+			Game.score++;
 		}	
 	}
 }

@@ -14,6 +14,7 @@ public class Racquet {
 	double xa = 0;
 	int playerHp = 3;
 	Game game;
+	private int currentKeyCode;
 	public Racquet(Game game) {;
 		this.game = game;
 	}
@@ -30,10 +31,11 @@ public class Racquet {
 	}
 	
 	public void keyReleased(KeyEvent e) {
-		xa = 0; //sus
+		if(e.getKeyCode() == currentKeyCode) xa = 0; //sus
 	}
 	
 	public void keyPressed(KeyEvent e) {
+		currentKeyCode = e.getKeyCode();	
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			xa = -game.RacquetSpeed;
 		}
